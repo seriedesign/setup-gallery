@@ -1,0 +1,6 @@
+@use "vars";
+@use "swiper/swiper.css";
+.btn {
+	color: vars.$primary;
+	display: flex;
+}

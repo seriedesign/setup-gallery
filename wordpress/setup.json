@@ -1,0 +1,45 @@
+{
+  "nome": "WordPress (tema clássico)",
+  "fingerprint": ["theme/style.css", "style.css", "functions.php", "theme/functions.php", "wp-content/themes/*/style.css"],
+  "variaveis": {
+    "slug": "pasta do tema / Text Domain do style.css; em projeto vazio, kebab-case do nome",
+    "nome": "Theme Name do style.css; em projeto vazio, pergunte"
+  },
+  "fontes": { "js": "src/ts/main.ts", "css": "src/css/main.css" },
+  "saida": "theme/dist/",
+  "perguntas": [
+    "Onde está o tema (pasta com style.css)? Se não for theme/ na raiz, os paths de package.json, biome.json, main.css (@source) e blueprint.json mudam junto.",
+    "O functions.php já enfileira CSS/JS de outro lugar? Mantenho esses paths como saída ou troco para dist/ e ajusto o enqueue (mostre o diff)?",
+    "O tema já tem SCSS? Se sim, usar sass no lugar do Tailwind (como no build da tray/) ou manter o SCSS fora do build novo?",
+    "Quer o ambiente local com WordPress Playground (npm run dev:wp)? Quais plugins entram no blueprint (ex.: secure-custom-fields)?",
+    "Remover o build antigo encontrado (liste os arquivos)?"
+  ],
+  "arquivos": {
+    "esbuild.mjs": "substituir",
+    "biome.json": "substituir",
+    ".prettierrc.json": "substituir",
+    "tsconfig.json": "substituir",
+    ".editorconfig": "substituir",
+    ".gitattributes": "substituir",
+    "package.json": "mesclar",
+    ".gitignore": "mesclar",
+    "blueprint.json": "so-se-vazio",
+    "src/css/main.css": "so-se-vazio",
+    "src/ts/main.ts": "so-se-vazio",
+    "theme/style.css": "so-se-vazio",
+    "theme/functions.php": "so-se-vazio",
+    "theme/index.php": "so-se-vazio"
+  },
+  "mesclar": {
+    "package.json": ["type", "engines", "scripts", "devDependencies", "allowScripts"],
+    ".gitignore": ["linhas que faltarem"]
+  },
+  "build_antigo": ["webpack.config.js", "webpack.mix.js", "gulpfile.js", "Gruntfile.js", ".babelrc", "babel.config.js", "postcss.config.js", ".eslintrc*", "package.json: @wordpress/scripts, laravel-mix, gulp, webpack*, node-sass"],
+  "includes": ["functions.php e inc/**/*.php: wp_enqueue_style, wp_enqueue_script, wp_enqueue_script_module, get_theme_file_uri"],
+  "verificar": ["npm install", "npm run lint", "npm run typecheck", "npm run build"],
+  "notas": [
+    "Projeto vazio: o banco SQLite do Playground é criado na primeira execução de dev:wp (db/ e uploads/ precisam existir; crie com .gitkeep).",
+    "main.js sai como ESM: enfileire com wp_enqueue_script_module, não wp_enqueue_script.",
+    "lint roda Prettier só em PHP do tema; se o tema não estiver em theme/, ajuste o glob."
+  ]
+}

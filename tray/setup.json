@@ -1,0 +1,39 @@
+{
+  "nome": "Tray",
+  "fingerprint": ["theme/configs/settings.json", "theme/elements/*.html", "theme/layouts/default.html"],
+  "variaveis": {
+    "slug": "nome do repositório (git remote) ou da pasta"
+  },
+  "fontes": { "js": "resources/js/<nome>.(js|ts) na raiz", "css": "resources/scss/<nome>.(scss|css) na raiz; _<nome> é parcial" },
+  "saida": "theme/js/<nome>.js, theme/css/<nome>.css e theme/elements/snippets/<nome>-critical.html para *-critical.scss",
+  "perguntas": [
+    "O tema já está em theme/? Se não, pare: baixe o tema (padrão da Tray, e-temas…) primeiro e rode a skill de novo.",
+    "O resources/ veio com o tema? Liste as entradas que vão virar arquivo e confirme.",
+    "Qual versão das libs que o tema importa (ex.: Swiper 11 vs 14)? Use a que o código do tema espera.",
+    "O tema traz lint próprio (biome.jsonc, .eslintrc, .prettierrc)? Manter o dele ou usar o nosso biome.json?",
+    "Remover o build antigo encontrado (liste os arquivos)?"
+  ],
+  "arquivos": {
+    "build.mjs": "substituir",
+    "biome.json": "substituir",
+    "package.json": "mesclar",
+    ".gitignore": "mesclar",
+    "resources/js/sd-main.ts": "so-se-vazio",
+    "resources/scss/sd-main.scss": "so-se-vazio",
+    "resources/scss/_vars.scss": "so-se-vazio"
+  },
+  "mesclar": {
+    "package.json": ["type", "scripts", "devDependencies", "dependencies"],
+    ".gitignore": ["node_modules e uma linha por saída gerada (theme/css/<nome>.css, theme/js/<nome>.js, theme/elements/snippets/<nome>-critical.html); NUNCA theme/css/* inteiro, o tema tem CSS próprio ali"]
+  },
+  "build_antigo": ["webpack.mix.js", "mix-manifest.json", "gulpfile.js", "webpack.config.js", "package.json: laravel-mix, gulp*, webpack*, node-sass, script prod"],
+  "includes": ["theme/layouts/*.html, theme/pages/*.html, theme/elements/**/*.html: <link>/<script> para css/<nome>.css e js/<nome>.js, {% element 'snippets/<nome>-critical' %}"],
+  "verificar": ["npm install", "npm run lint", "npm run build"],
+  "notas": [
+    "README do tema baixado costuma descrever o build antigo (npm run prod); atualize a seção de build, não apague o resto.",
+    "jQuery é global da Tray: não instale nem importe. O biome.json já declara $ e jQuery como globals.",
+    "O build só grava saídas cujo conteúdo mudou: é de propósito, o tray watch sobe todo arquivo com data nova.",
+    "Import que o laravel-mix resolvia e o esbuild não (alias, require de CSS) quebra o build: reporte o arquivo, não reescreva o código do tema sem pedir.",
+    "Target es2020/safari15 (piso do Swiper 11). Sem polyfills automáticos."
+  ]
+}

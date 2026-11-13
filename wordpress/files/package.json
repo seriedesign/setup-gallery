@@ -1,0 +1,36 @@
+{
+  "name": "{{slug}}",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:js": "node esbuild.mjs --watch",
+    "dev:css": "tailwindcss -i src/css/main.css -o theme/dist/main.css --watch",
+    "build": "run-p build:*",
+    "build:js": "node esbuild.mjs",
+    "build:css": "tailwindcss -i src/css/main.css -o theme/dist/main.css --minify",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check . && prettier --check \"theme/**/*.php\"",
+    "format": "biome check --write . && prettier --write \"theme/**/*.php\"",
+    "dev:wp": "wp-playground-cli server --port 9400 --login --blueprint blueprint.json --mount-dir-before-install ./db /wordpress/wp-content/database --mount-dir ./uploads /wordpress/wp-content/uploads --mount-dir ./theme /wordpress/wp-content/themes/{{slug}}"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.6",
+    "@prettier/plugin-php": "^0.26.0",
+    "@tailwindcss/cli": "^4.3.5",
+    "@wp-playground/cli": "^3.1.64",
+    "esbuild": "^0.28.2",
+    "npm-run-all2": "^9.0.4",
+    "prettier": "^3.9.10",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "esbuild": false,
+    "fs-ext-extra-prebuilt": false
+  }
+}

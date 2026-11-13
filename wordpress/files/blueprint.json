@@ -1,0 +1,17 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "steps": [
+    {
+      "step": "activateTheme",
+      "themeFolderName": "{{slug}}"
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "secure-custom-fields"
+      }
+    }
+  ],
+  "login": true
+}
