@@ -1,10 +1,18 @@
 {
   "nome": "Tray",
-  "fingerprint": ["theme/configs/settings.json", "theme/elements/*.html", "theme/layouts/default.html"],
+  "fingerprint": [
+    "theme/configs/settings.json",
+    "theme/elements/*.html",
+    "theme/layouts/default.html"
+  ],
   "variaveis": {
-    "slug": "nome do repositório (git remote) ou da pasta"
+    "slug": "nome do repositório (git remote) ou da pasta",
+    "nome": "nome do cliente/loja (ex.: Torres Cabral); pergunte se não der para inferir"
   },
-  "fontes": { "js": "resources/js/<nome>.(js|ts) na raiz", "css": "resources/scss/<nome>.(scss|css) na raiz; _<nome> é parcial" },
+  "fontes": {
+    "js": "resources/js/<nome>.(js|ts) na raiz",
+    "css": "resources/scss/<nome>.(scss|css) na raiz; _<nome> é parcial"
+  },
   "saida": "theme/js/<nome>.js, theme/css/<nome>.css e theme/elements/snippets/<nome>-critical.html para *-critical.scss",
   "perguntas": [
     "O tema já está em theme/? Se não, pare: baixe o tema (padrão da Tray, e-temas…) primeiro e rode a skill de novo.",
@@ -20,15 +28,36 @@
     ".gitignore": "mesclar",
     "resources/js/sd-main.ts": "so-se-vazio",
     "resources/scss/sd-main.scss": "so-se-vazio",
-    "resources/scss/_vars.scss": "so-se-vazio"
+    "resources/scss/_vars.scss": "so-se-vazio",
+    "README.md": "so-se-ausente",
+    "AGENTS.md": "so-se-ausente"
   },
   "mesclar": {
-    "package.json": ["type", "scripts", "devDependencies", "dependencies"],
-    ".gitignore": ["node_modules e uma linha por saída gerada (theme/css/<nome>.css, theme/js/<nome>.js, theme/elements/snippets/<nome>-critical.html); NUNCA theme/css/* inteiro, o tema tem CSS próprio ali"]
+    "package.json": [
+      "type",
+      "scripts",
+      "devDependencies",
+      "dependencies"
+    ],
+    ".gitignore": [
+      "node_modules e uma linha por saída gerada (theme/css/<nome>.css, theme/js/<nome>.js, theme/elements/snippets/<nome>-critical.html); NUNCA theme/css/* inteiro, o tema tem CSS próprio ali"
+    ]
   },
-  "build_antigo": ["webpack.mix.js", "mix-manifest.json", "gulpfile.js", "webpack.config.js", "package.json: laravel-mix, gulp*, webpack*, node-sass, script prod"],
-  "includes": ["theme/layouts/*.html, theme/pages/*.html, theme/elements/**/*.html: <link>/<script> para css/<nome>.css e js/<nome>.js, {% element 'snippets/<nome>-critical' %}"],
-  "verificar": ["npm install", "npm run lint", "npm run build"],
+  "build_antigo": [
+    "webpack.mix.js",
+    "mix-manifest.json",
+    "gulpfile.js",
+    "webpack.config.js",
+    "package.json: laravel-mix, gulp*, webpack*, node-sass, script prod"
+  ],
+  "includes": [
+    "theme/layouts/*.html, theme/pages/*.html, theme/elements/**/*.html: <link>/<script> para css/<nome>.css e js/<nome>.js, {% element 'snippets/<nome>-critical' %}"
+  ],
+  "verificar": [
+    "npm install",
+    "npm run lint",
+    "npm run build"
+  ],
   "notas": [
     "README do tema baixado costuma descrever o build antigo (npm run prod); atualize a seção de build, não apague o resto.",
     "jQuery é global da Tray: não instale nem importe. O biome.json já declara $ e jQuery como globals.",

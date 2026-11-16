@@ -1,3 +1,6 @@
 node_modules/
 theme/dist/
-db/*.lock
+
+# Banco SQLite do Playground: gerado no primeiro dev:wp, cada dev tem o seu
+db/*
+!db/.gitkeep

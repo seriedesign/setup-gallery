@@ -18,7 +18,7 @@
     "dev:wp": "wp-playground-cli server --port 9400 --login --blueprint blueprint.json --mount-dir-before-install ./db /wordpress/wp-content/database --mount-dir ./uploads /wordpress/wp-content/uploads --mount-dir ./theme /wordpress/wp-content/themes/{{slug}}"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.6",
+    "@biomejs/biome": "2.6.8",
     "@prettier/plugin-php": "^0.26.0",
     "@tailwindcss/cli": "^4.3.5",
     "@wp-playground/cli": "^3.1.64",

@@ -32,7 +32,7 @@ nasce com ela.
 | `variaveis` | `{ "nome": "descrição/como inferir" }` — substituídas como `{{nome}}` em `files/` |
 | `fontes` / `saida` | Onde ficam as fontes JS/CSS e para onde o build escreve |
 | `perguntas` | Perguntas do grill-me específicas da plataforma (uma por vez, só as que não dá para inferir) |
-| `arquivos` | Para cada arquivo de `files/`: `"substituir"` (o nosso vence; mostra o diff antes), `"mesclar"` (só os campos listados em `mesclar`) ou `"so-se-vazio"` (só cria em projeto vazio) |
+| `arquivos` | Para cada arquivo de `files/`: `"substituir"` (o nosso vence; mostra o diff antes), `"mesclar"` (só os campos listados em `mesclar`) ou `"so-se-vazio"` (só cria em projeto vazio) ou `"so-se-ausente"` (cria se o arquivo não existir; se já existir, a skill só atualiza a seção de build/comandos, sem apagar o resto) |
 | `mesclar` | Por arquivo, as chaves que a skill pode mexer (ex.: `scripts`, `devDependencies`) |
 | `build_antigo` | Arquivos/scripts de builds que este substitui (mix, gulp, webpack…), para listar e remover com confirmação |
 | `includes` | Onde a plataforma carrega o CSS/JS gerado; toda saída referenciada ali precisa existir depois do build |
