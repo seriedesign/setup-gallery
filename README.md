@@ -37,6 +37,7 @@ nasce com ela.
 | `build_antigo` | Arquivos/scripts de builds que este substitui (mix, gulp, webpack…), para listar e remover com confirmação |
 | `includes` | Onde a plataforma carrega o CSS/JS gerado; toda saída referenciada ali precisa existir depois do build |
 | `verificar` | Comandos que precisam terminar com 0, em ordem |
+| `opcionais` | Extras que o projeto escolhe na entrevista (ex.: `scf`). Cada um tem `pergunta`, `pasta` (arquivos extras, mesma regra de `arquivos`), `acrescentar` (arquivo de texto a anexar a um existente, ex.: AGENTS.md), `requires` (linha a incluir em arquivo existente) e `blueprint_steps` (steps a anexar ao blueprint do Playground). Só se aplica se a resposta for sim. |
 | `notas` | Armadilhas conhecidas, em uma linha cada |
 
 Nova plataforma = nova pasta seguindo o contrato. A skill não precisa mudar.

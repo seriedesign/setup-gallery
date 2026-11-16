@@ -20,7 +20,8 @@
     "Onde está o tema (pasta com style.css)? Se não for theme/ na raiz, os paths de package.json, biome.json, main.css (@source) e blueprint.json mudam junto.",
     "O functions.php já enfileira CSS/JS de outro lugar? Mantenho esses paths como saída ou troco para dist/ e ajusto o enqueue (mostre o diff)?",
     "O tema já tem SCSS? Se sim, usar sass no lugar do Tailwind (como no build da tray/) ou manter o SCSS fora do build novo?",
-    "Quer o ambiente local com WordPress Playground (npm run dev:wp)? Quais plugins entram no blueprint (ex.: secure-custom-fields)?",
+    "Quer o ambiente local com WordPress Playground (npm run dev:wp)? Além do SCF (pergunta própria), algum outro plugin entra no blueprint?",
+    "O projeto vai usar Secure Custom Fields (campos e blocos personalizados)? Se sim, aplica o opcional scf (Local JSON em theme/acf-json, blocos por block.json, plugin no blueprint). Se o tema já tem acf-json/ ou usa ACF, avise e mantenha o que existe.",
     "Remover o build antigo encontrado (liste os arquivos)?"
   ],
   "arquivos": {
@@ -82,5 +83,35 @@
     "functions.php usa filemtime nos arquivos de dist/: rode npm run build antes de ativar o tema, senão vira warning.",
     "main.js sai como ESM: enfileire com wp_enqueue_script_module, não wp_enqueue_script.",
     "lint roda Prettier só em PHP do tema; se o tema não estiver em theme/, ajuste o glob."
-  ]
+  ],
+  "opcionais": {
+    "scf": {
+      "pergunta": "O projeto vai usar Secure Custom Fields?",
+      "pasta": "opcionais/scf/files",
+      "arquivos": {
+        "theme/inc/scf.php": "so-se-ausente",
+        "theme/acf-json/.gitkeep": "so-se-ausente",
+        "theme/blocks/.gitkeep": "so-se-ausente"
+      },
+      "acrescentar": {
+        "AGENTS.md": "opcionais/scf/AGENTS.scf.md"
+      },
+      "requires": {
+        "theme/functions.php": "require_once __DIR__ . '/inc/scf.php'; logo depois de <?php (se o functions.php já existir, acrescente a linha; senão crie)"
+      },
+      "blueprint_steps": [
+        {
+          "step": "installPlugin",
+          "pluginData": {
+            "resource": "wordpress.org/plugins",
+            "slug": "secure-custom-fields"
+          }
+        }
+      ],
+      "notas": [
+        "O Local JSON só funciona com o filtro de inc/scf.php; sem ele o SCF não lê theme/acf-json.",
+        "Valores preenchidos ficam no banco, não no git; só a definição dos campos vai no commit."
+      ]
+    }
+  }
 }
