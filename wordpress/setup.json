@@ -57,7 +57,7 @@
       "allowScripts"
     ],
     ".gitignore": [
-      "linhas que faltarem (inclui db/*, !db/.gitkeep, uploads/* e !uploads/.gitkeep)"
+      "linhas que faltarem (inclui db/* e !db/.gitkeep)"
     ]
   },
   "build_antigo": [

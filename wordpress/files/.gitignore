@@ -4,7 +4,3 @@ theme/dist/
 # Banco SQLite do Playground: gerado no primeiro dev:wp, cada dev tem o seu
 db/*
 !db/.gitkeep
-
-# Mídia enviada ao WordPress local: fica no ambiente, não no git
-uploads/*
-!uploads/.gitkeep
