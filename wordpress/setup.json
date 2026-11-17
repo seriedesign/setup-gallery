@@ -39,6 +39,10 @@
     "theme/style.css": "so-se-vazio",
     "theme/functions.php": "so-se-vazio",
     "theme/index.php": "so-se-vazio",
+    "theme/header.php": "so-se-vazio",
+    "theme/footer.php": "so-se-vazio",
+    "theme/search.php": "so-se-vazio",
+    "theme/404.php": "so-se-vazio",
     "README.md": "so-se-ausente",
     "AGENTS.md": "so-se-ausente",
     "db/.gitkeep": "so-se-vazio",
@@ -82,6 +86,8 @@
     "A porta 9400 do dev:wp é fixa: com outro Playground aberto dá EADDRINUSE; troque o --port.",
     "functions.php usa filemtime nos arquivos de dist/: rode npm run build antes de ativar o tema, senão vira warning.",
     "main.js sai como ESM: enfileire com wp_enqueue_script_module, não wp_enqueue_script.",
+    "O tema base de projeto vazio já traz search.php e 404.php (sem eles /?s= cai no index.php e a busca parece quebrada) e add_theme_support de title-tag, html5 e post-thumbnails. Em tema existente, a skill só confere se faltam e avisa.",
+    "Menus (register_nav_menus) e header/footer do design são do projeto, não do base: o header.php/footer.php daqui é só a casca HTML.",
     "lint roda Prettier só em PHP do tema; se o tema não estiver em theme/, ajuste o glob."
   ],
   "opcionais": {
