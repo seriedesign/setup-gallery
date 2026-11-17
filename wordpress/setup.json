@@ -88,6 +88,7 @@
     "main.js sai como ESM: enfileire com wp_enqueue_script_module, não wp_enqueue_script.",
     "O tema base de projeto vazio já traz search.php e 404.php (sem eles /?s= cai no index.php e a busca parece quebrada) e add_theme_support de title-tag, html5 e post-thumbnails. Em tema existente, a skill só confere se faltam e avisa.",
     "Menus (register_nav_menus) e header/footer do design são do projeto, não do base: o header.php/footer.php daqui é só a casca HTML.",
+    "Se o dev:wp cair no boot com PHP exit code 255 e, em --verbosity debug, 'Cannot escape data without an active database connection', o db/.../.ht.sqlite ficou em modo WAL e o Playground não abre. Com o servidor parado: python -c \"import sqlite3,glob;[sqlite3.connect(f).execute('pragma journal_mode=delete') for f in glob.glob('db/.ht.*/.ht.sqlite')]\" (faça backup de db/ antes).",
     "lint roda Prettier só em PHP do tema; se o tema não estiver em theme/, ajuste o glob."
   ],
   "opcionais": {
