@@ -22,6 +22,7 @@
     "O tema já tem SCSS? Se sim, usar sass no lugar do Tailwind (como no build da tray/) ou manter o SCSS fora do build novo?",
     "Quer o ambiente local com WordPress Playground (npm run dev:wp)? Além do SCF (pergunta própria), algum outro plugin entra no blueprint?",
     "O projeto vai usar Secure Custom Fields (campos e blocos personalizados)? Se sim, aplica o opcional scf (Local JSON em theme/acf-json, blocos por block.json, plugin no blueprint). Se o tema já tem acf-json/ ou usa ACF, avise e mantenha o que existe.",
+    "O banco local (db/) e a mídia (uploads/) vão para o git (padrão Série A: todo dev parte do mesmo banco)? Se sim, mantenha o .gitignore e o db:check do template. Se o projeto tiver um dev só e preferir banco por dev, volte `db/*` e `!db/.gitkeep` ao .gitignore e remova db:check/db:fix e a seção Banco de dados do README.",
     "Remover o build antigo encontrado (liste os arquivos)?"
   ],
   "arquivos": {
@@ -30,7 +31,7 @@
     ".prettierrc.json": "substituir",
     "tsconfig.json": "substituir",
     ".editorconfig": "substituir",
-    ".gitattributes": "substituir",
+    ".gitattributes": "mesclar",
     "package.json": "mesclar",
     ".gitignore": "mesclar",
     "blueprint.json": "so-se-vazio",
@@ -46,7 +47,8 @@
     "README.md": "so-se-ausente",
     "AGENTS.md": "so-se-ausente",
     "db/.gitkeep": "so-se-vazio",
-    "uploads/.gitkeep": "so-se-vazio"
+    "uploads/.gitkeep": "so-se-vazio",
+    "scripts/db-check.mjs": "substituir"
   },
   "mesclar": {
     "package.json": [
@@ -57,7 +59,10 @@
       "allowScripts"
     ],
     ".gitignore": [
-      "linhas que faltarem (inclui db/* e !db/.gitkeep)"
+      "linhas que faltarem (inclui os transitórios do SQLite: db/**/*.sqlite-wal, -shm, -journal e db/*.lock; o db/ em si é versionado)"
+    ],
+    ".gitattributes": [
+      "linha *.sqlite binary"
     ]
   },
   "build_antigo": [
@@ -81,7 +86,7 @@
     "npm run build"
   ],
   "notas": [
-    "db/ e uploads/ têm .gitkeep; o conteúdo de db/ (SQLite do Playground) é ignorado no git, cada dev tem o seu.",
+    "db/ e uploads/ são versionados: o banco é binário e não se mescla, então só entra no git com o dev:wp parado e fora do modo WAL (npm run db:check / db:fix). Conflito em db/ = ficar com o do remoto e refazer a edição. Teste e diagnóstico rodam numa cópia de db/, em outra porta.",
     "No Git Bash do Windows, dev:wp só funciona com MSYS_NO_PATHCONV=1 (senão /wordpress vira um caminho do Windows).",
     "A porta 9400 do dev:wp é fixa: com outro Playground aberto dá EADDRINUSE; troque o --port.",
     "functions.php usa filemtime nos arquivos de dist/: rode npm run build antes de ativar o tema, senão vira warning.",

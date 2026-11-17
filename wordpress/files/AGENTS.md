@@ -10,6 +10,7 @@ Tema **WordPress** de {{nome}}, mantido pela **Série A**. A fonte de CSS/JS fic
 - O JS sai como ESM: enfileire com `wp_enqueue_script_module`, não `wp_enqueue_script`.
 - Não adicione webpack, Vite, Babel ou `@wordpress/scripts`. O build é `esbuild.mjs` + Tailwind CLI.
 - Depois de mexer em `src/`, rode `npm run lint`, `npm run typecheck` e `npm run build` e confirme que terminam sem erro.
+- O banco local (`db/`) e a mídia (`uploads/`) **são versionados** (seção "Banco de dados" do README): parar o `dev:wp` e rodar `npm run db:check` antes de commitar, commit só de conteúdo, nunca mesclar (em conflito, fica o banco do remoto). **Teste e diagnóstico não rodam no `db/` do repositório**: copie e suba numa porta separada.
 - Textos, commits e comunicação em **português**.
 - Nunca adicione `Co-Authored-By` (nem qualquer outra marca de autoria de IA, como "Generated with ...") em commits ou pull requests.
 
