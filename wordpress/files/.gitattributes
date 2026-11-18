@@ -1,1 +1,4 @@
 * text=auto eol=lf
+
+# banco do Playground: binário, sem merge automático (conflito = escolher um lado, ver README)
+*.sqlite binary

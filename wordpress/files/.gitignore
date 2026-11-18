@@ -1,6 +1,9 @@
 node_modules/
 theme/dist/
 
-# Banco SQLite do Playground: gerado no primeiro dev:wp, cada dev tem o seu
-db/*
-!db/.gitkeep
+# Banco SQLite do Playground: VERSIONADO, todo dev parte do mesmo banco (ver "Banco de dados" no
+# README). Só o transitório fica de fora; um banco em modo WAL não deve ser commitado (npm run db:check).
+db/**/*.sqlite-wal
+db/**/*.sqlite-shm
+db/**/*.sqlite-journal
+db/*.lock
