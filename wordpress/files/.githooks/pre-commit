@@ -1,0 +1,16 @@
+#!/bin/sh
+# Banco local (db/) e mídia (uploads/) só entram no git em commit de conteúdo, com o banco
+# parado e em modo normal. Ver "Banco de dados" no README. Instalado pelo `npm ci` (prepare).
+staged=$(git diff --cached --name-only)
+conteudo=$(printf '%s\n' "$staged" | grep -E '^(db|uploads)/')
+[ -z "$conteudo" ] && exit 0
+
+outros=$(printf '%s\n' "$staged" | grep -vE '^(db|uploads)/')
+if [ -n "$outros" ]; then
+  echo "pre-commit: db/ e uploads/ vão sozinhos, em um commit só de conteúdo (content: ...)."
+  echo "Arquivos de outro assunto neste commit:"
+  printf '%s\n' "$outros" | sed 's/^/  /'
+  exit 1
+fi
+
+node scripts/db-check.mjs

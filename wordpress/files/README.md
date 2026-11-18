@@ -40,6 +40,7 @@ O banco é um arquivo binário: o git **não consegue mesclar** duas edições. 
 
 1. **Antes de editar conteúdo:** `git pull`. Avise o time quando for mexer em páginas, para não haver dois devs no banco ao mesmo tempo.
 2. **Para commitar o banco:** pare o `dev:wp`, rode `npm run db:check` e, se reprovar, `npm run db:fix`. Commite `db/` e `uploads/` **sozinhos**, em um commit só de conteúdo (`content: ...`), e dê push logo. Nunca no mesmo commit de código.
+   O hook `.githooks/pre-commit` (instalado pelo `npm ci`, via `prepare`) faz essas conferências sozinho: se o commit tem `db/` ou `uploads/`, roda o `db:check` e barra quando o servidor está ligado, o banco está em WAL ou há arquivo de outro assunto junto. Se clonou sem `npm ci`, rode `node scripts/instalar-hooks.mjs`.
 3. **Conflito em `db/`:** não há como resolver à mão. Fique com o banco do remoto (`git checkout --theirs db uploads` durante o merge, ou `git checkout origin/main -- db uploads`) e refaça as suas edições.
 4. **Banco em WAL:** o `dev:wp` cai no boot com `exit code 255` (em `--verbosity debug`: "Cannot escape data without an active database connection"). Pare o servidor e rode `npm run db:fix`.
 5. **Teste e diagnóstico não rodam no `db/` do repositório:** copie `db/` para fora do repo e suba o Playground numa porta separada.

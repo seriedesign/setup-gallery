@@ -6,6 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
+    "prepare": "node scripts/instalar-hooks.mjs",
     "dev": "run-p dev:*",
     "dev:js": "node esbuild.mjs --watch",
     "dev:css": "tailwindcss -i src/css/main.css -o theme/dist/main.css --watch",

@@ -48,7 +48,9 @@
     "AGENTS.md": "so-se-ausente",
     "db/.gitkeep": "so-se-vazio",
     "uploads/.gitkeep": "so-se-vazio",
-    "scripts/db-check.mjs": "substituir"
+    "scripts/db-check.mjs": "substituir",
+    "scripts/instalar-hooks.mjs": "substituir",
+    ".githooks/pre-commit": "substituir"
   },
   "mesclar": {
     "package.json": [
@@ -86,7 +88,7 @@
     "npm run build"
   ],
   "notas": [
-    "db/ e uploads/ são versionados: o banco é binário e não se mescla, então só entra no git com o dev:wp parado e fora do modo WAL (npm run db:check / db:fix). Conflito em db/ = ficar com o do remoto e refazer a edição. Teste e diagnóstico rodam numa cópia de db/, em outra porta.",
+    "db/ e uploads/ são versionados: o banco é binário e não se mescla, então só entra no git com o dev:wp parado e fora do modo WAL (npm run db:check / db:fix); o hook .githooks/pre-commit (ligado pelo prepare do package.json) roda o db:check e barra commit de db/ ou uploads/ misturado com código. Conflito em db/ = ficar com o do remoto e refazer a edição. Teste e diagnóstico rodam numa cópia de db/, em outra porta.",
     "No Git Bash do Windows, dev:wp só funciona com MSYS_NO_PATHCONV=1 (senão /wordpress vira um caminho do Windows).",
     "A porta 9400 do dev:wp é fixa: com outro Playground aberto dá EADDRINUSE; troque o --port.",
     "functions.php usa filemtime nos arquivos de dist/: rode npm run build antes de ativar o tema, senão vira warning.",
