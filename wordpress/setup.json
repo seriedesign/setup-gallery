@@ -48,9 +48,12 @@
     "AGENTS.md": "so-se-ausente",
     "db/.gitkeep": "so-se-vazio",
     "uploads/.gitkeep": "so-se-vazio",
+    "scripts/dev-wp.mjs": "substituir",
+    "scripts/credenciais-db.mjs": "substituir",
     "scripts/db-check.mjs": "substituir",
-    "scripts/instalar-hooks.mjs": "substituir",
-    ".githooks/pre-commit": "substituir"
+    "scripts/instalar-hooks.mjs": "so-se-ausente",
+    ".githooks/pre-commit": "so-se-ausente",
+    ".env.example": "so-se-ausente"
   },
   "mesclar": {
     "package.json": [
@@ -61,10 +64,10 @@
       "allowScripts"
     ],
     ".gitignore": [
-      "linhas que faltarem (inclui os transitórios do SQLite: db/**/*.sqlite-wal, -shm, -journal e db/*.lock; o db/ em si é versionado)"
+      "linhas que faltarem (inclui db/**/*.sqlite-wal, -shm, -journal e db/*.lock, .env, .env.* e !.env.example; o db/ NÃO é ignorado, é versionado)"
     ],
     ".gitattributes": [
-      "linha *.sqlite binary"
+      "linhas que faltarem (inclui *.sqlite binary); nunca apague as regras que o projeto já tem (ex.: merge=dist)"
     ]
   },
   "build_antigo": [
@@ -88,7 +91,8 @@
     "npm run build"
   ],
   "notas": [
-    "db/ e uploads/ são versionados: o banco é binário e não se mescla, então só entra no git com o dev:wp parado e fora do modo WAL (npm run db:check / db:fix); o hook .githooks/pre-commit (ligado pelo prepare do package.json) roda o db:check e barra commit de db/ ou uploads/ misturado com código. Conflito em db/ = ficar com o do remoto e refazer a edição. Teste e diagnóstico rodam numa cópia de db/, em outra porta.",
+    "db/ e uploads/ são VERSIONADOS (todo dev parte do mesmo banco, SQLite do Playground, binário, sem merge): scripts/db-check.mjs e o .githooks/pre-commit só deixam commitar com o servidor parado, fora do modo WAL e sem login dentro. Se o projeto já tem pre-commit, acrescente a guarda do banco nele em vez de trocar.",
+    "O login do dev:wp vem do .env (WP_ADMIN_USER e WP_ADMIN_PASSWORD; modelo em .env.example, o dev copia para .env): scripts/dev-wp.mjs recusa subir sem eles. O login: true do blueprint não serve com senha própria, porque vira um passo que roda primeiro com admin/password; o script o remove e põe um passo login depois de gravar a senha. Se o projeto versionar o db/, o login precisa voltar ao neutro ao parar (ver wordpress-reis-office: scripts/credenciais-db.mjs e db:check). Conflito em db/ = ficar com o do remoto e refazer a edição. Teste e diagnóstico rodam numa cópia de db/, em outra porta.",
     "No Git Bash do Windows, dev:wp só funciona com MSYS_NO_PATHCONV=1 (senão /wordpress vira um caminho do Windows).",
     "A porta 9400 do dev:wp é fixa: com outro Playground aberto dá EADDRINUSE; troque o --port.",
     "functions.php usa filemtime nos arquivos de dist/: rode npm run build antes de ativar o tema, senão vira warning.",

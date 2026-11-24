@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome check . && prettier --check \"theme/**/*.php\"",
     "format": "biome check --write . && prettier --write \"theme/**/*.php\"",
-    "dev:wp": "wp-playground-cli server --port 9400 --login --blueprint blueprint.json --mount-dir-before-install ./db /wordpress/wp-content/database --mount-dir ./uploads /wordpress/wp-content/uploads --mount-dir ./theme /wordpress/wp-content/themes/{{slug}}",
+    "dev:wp": "node scripts/dev-wp.mjs --port 9400",
     "db:check": "node scripts/db-check.mjs",
     "db:fix": "node scripts/db-check.mjs --fix"
   },
