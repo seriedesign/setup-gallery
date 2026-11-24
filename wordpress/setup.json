@@ -34,7 +34,7 @@
     ".gitattributes": "mesclar",
     "package.json": "mesclar",
     ".gitignore": "mesclar",
-    "blueprint.json": "so-se-vazio",
+    "blueprint.json": "mesclar",
     "src/css/main.css": "so-se-vazio",
     "src/ts/main.ts": "so-se-vazio",
     "theme/style.css": "so-se-vazio",
@@ -66,6 +66,9 @@
     ".gitignore": [
       "linhas que faltarem (inclui db/**/*.sqlite-wal, -shm, -journal e db/*.lock, .env, .env.* e !.env.example; o db/ NÃO é ignorado, é versionado)"
     ],
+    "blueprint.json": [
+      "steps: acrescentar só os que faltarem (installPlugin all-in-one-wp-migration e installPlugin do WP Puller, resource url https://github.com/codician-team/wp-puller/releases/latest/download/wp-puller.zip); nunca mexa nos steps que o projeto já tem nem remova o login"
+    ],
     ".gitattributes": [
       "linhas que faltarem (inclui *.sqlite binary); nunca apague as regras que o projeto já tem (ex.: merge=dist)"
     ]
@@ -92,6 +95,8 @@
   ],
   "notas": [
     "db/ e uploads/ são VERSIONADOS (todo dev parte do mesmo banco, SQLite do Playground, binário, sem merge): scripts/db-check.mjs e o .githooks/pre-commit só deixam commitar com o servidor parado, fora do modo WAL e sem login dentro. Se o projeto já tem pre-commit, acrescente a guarda do banco nele em vez de trocar.",
+    "O WP Puller entra no blueprint pela última release do GitHub (resource url, releases/latest/download/wp-puller.zip, hoje 1.0.7; a master tem 1.0.8 sem release). Ele fica na lista de plugins ativos do banco local, então chega ativo ao destino numa importação, mas a configuração (repositório, token criptografado com o AUTH_KEY do servidor, secret do webhook) é a do local e precisa ser refeita lá.",
+    "O All-in-One WP Migration entra no blueprint (installPlugin all-in-one-wp-migration) para levar o banco do local a outro ambiente: no free, Restore da lista de Backups é pago; o caminho é Export (FILE) no local e Import from file no destino. A importação substitui o banco inteiro (inclusive usuários e a lista de plugins ativos), então exporte o destino antes. O .wpress do Playground sai com SQL em SQLite e o plugin converte na importação (testado num MariaDB 11.4).",
     "O login do dev:wp vem do .env (WP_ADMIN_USER e WP_ADMIN_PASSWORD; modelo em .env.example, o dev copia para .env): scripts/dev-wp.mjs recusa subir sem eles. O login: true do blueprint não serve com senha própria, porque vira um passo que roda primeiro com admin/password; o script o remove e põe um passo login depois de gravar a senha. Se o projeto versionar o db/, o login precisa voltar ao neutro ao parar (ver wordpress-reis-office: scripts/credenciais-db.mjs e db:check). Conflito em db/ = ficar com o do remoto e refazer a edição. Teste e diagnóstico rodam numa cópia de db/, em outra porta.",
     "No Git Bash do Windows, dev:wp só funciona com MSYS_NO_PATHCONV=1 (senão /wordpress vira um caminho do Windows).",
     "A porta 9400 do dev:wp é fixa: com outro Playground aberto dá EADDRINUSE; troque o --port.",
