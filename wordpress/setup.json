@@ -22,6 +22,7 @@
     "O tema já tem SCSS? Se sim, usar sass no lugar do Tailwind (como no build da tray/) ou manter o SCSS fora do build novo?",
     "Quer o ambiente local com WordPress Playground (npm run dev:wp)? Além do SCF (pergunta própria), algum outro plugin entra no blueprint?",
     "O projeto vai usar Secure Custom Fields (campos e blocos personalizados)? Se sim, aplica o opcional scf (Local JSON em theme/acf-json, blocos por block.json, plugin no blueprint). Se o tema já tem acf-json/ ou usa ACF, avise e mantenha o que existe.",
+    "O banco local (db/) e a mídia (uploads/) vão para o git (padrão Série A: todo dev parte do mesmo banco)? Se sim, mantenha o .gitignore e o db:check do template. Se o projeto tiver um dev só e preferir banco por dev, volte `db/*` e `!db/.gitkeep` ao .gitignore e remova db:check/db:fix e a seção Banco de dados do README.",
     "Remover o build antigo encontrado (liste os arquivos)?"
   ],
   "arquivos": {
@@ -39,6 +40,10 @@
     "theme/style.css": "so-se-vazio",
     "theme/functions.php": "so-se-vazio",
     "theme/index.php": "so-se-vazio",
+    "theme/header.php": "so-se-vazio",
+    "theme/footer.php": "so-se-vazio",
+    "theme/search.php": "so-se-vazio",
+    "theme/404.php": "so-se-vazio",
     "README.md": "so-se-ausente",
     "AGENTS.md": "so-se-ausente",
     "db/.gitkeep": "so-se-vazio",
@@ -87,11 +92,14 @@
   ],
   "notas": [
     "db/ e uploads/ são VERSIONADOS (todo dev parte do mesmo banco, SQLite do Playground, binário, sem merge): scripts/db-check.mjs e o .githooks/pre-commit só deixam commitar com o servidor parado, fora do modo WAL e sem login dentro. Se o projeto já tem pre-commit, acrescente a guarda do banco nele em vez de trocar.",
-    "O login do dev:wp vem do .env (WP_ADMIN_USER e WP_ADMIN_PASSWORD; modelo em .env.example, o dev copia para .env): scripts/dev-wp.mjs recusa subir sem eles. O login: true do blueprint não serve com senha própria, porque vira um passo que roda primeiro com admin/password; o script o remove e põe um passo login depois de gravar a senha. Se o projeto versionar o db/, o login precisa voltar ao neutro ao parar (ver wordpress-reis-office: scripts/credenciais-db.mjs e db:check).",
+    "O login do dev:wp vem do .env (WP_ADMIN_USER e WP_ADMIN_PASSWORD; modelo em .env.example, o dev copia para .env): scripts/dev-wp.mjs recusa subir sem eles. O login: true do blueprint não serve com senha própria, porque vira um passo que roda primeiro com admin/password; o script o remove e põe um passo login depois de gravar a senha. Se o projeto versionar o db/, o login precisa voltar ao neutro ao parar (ver wordpress-reis-office: scripts/credenciais-db.mjs e db:check). Conflito em db/ = ficar com o do remoto e refazer a edição. Teste e diagnóstico rodam numa cópia de db/, em outra porta.",
     "No Git Bash do Windows, dev:wp só funciona com MSYS_NO_PATHCONV=1 (senão /wordpress vira um caminho do Windows).",
     "A porta 9400 do dev:wp é fixa: com outro Playground aberto dá EADDRINUSE; troque o --port.",
     "functions.php usa filemtime nos arquivos de dist/: rode npm run build antes de ativar o tema, senão vira warning.",
     "main.js sai como ESM: enfileire com wp_enqueue_script_module, não wp_enqueue_script.",
+    "O tema base de projeto vazio já traz search.php e 404.php (sem eles /?s= cai no index.php e a busca parece quebrada) e add_theme_support de title-tag, html5 e post-thumbnails. Em tema existente, a skill só confere se faltam e avisa.",
+    "Menus (register_nav_menus) e header/footer do design são do projeto, não do base: o header.php/footer.php daqui é só a casca HTML.",
+    "Se o dev:wp cair no boot com PHP exit code 255 e, em --verbosity debug, 'Cannot escape data without an active database connection', o db/.../.ht.sqlite ficou em modo WAL e o Playground não abre. Com o servidor parado: python -c \"import sqlite3,glob;[sqlite3.connect(f).execute('pragma journal_mode=delete') for f in glob.glob('db/.ht.*/.ht.sqlite')]\" (faça backup de db/ antes).",
     "lint roda Prettier só em PHP do tema; se o tema não estiver em theme/, ajuste o glob."
   ],
   "opcionais": {

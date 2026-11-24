@@ -44,8 +44,9 @@ O banco é um arquivo binário: o git **não consegue mesclar** duas edições. 
    O hook `.githooks/pre-commit` (instalado pelo `npm ci`, via `prepare`) faz essas conferências sozinho: se o commit tem `db/` ou `uploads/`, roda o `db:check` e barra quando o servidor está ligado, o banco está em WAL, guarda o login de alguém ou há arquivo de outro assunto junto. Se clonou sem `npm ci`, rode `node scripts/instalar-hooks.mjs`.
    "Servidor ligado" é o **seu** servidor, o Playground que roda a partir desta pasta: o `db:check` o procura entre os processos. Onde não der para listar os processos (Git Bash do Windows), ele sonda a porta do `--port` do script `dev:wp`; `DB_CHECK_PORT=9420` manda conferir outra.
 3. **Conflito em `db/`:** não há como resolver à mão. Fique com o banco do remoto (`git checkout --theirs db uploads` durante o merge, ou `git checkout origin/main -- db uploads`) e refaça as suas edições.
-4. **Banco em WAL:** o `dev:wp` cai no boot com `exit code 255` ("Cannot escape data without an active database connection"). Pare o servidor e rode `npm run db:fix`.
-5. **Voltar ao banco do repositório** (descartar o que você editou): `git checkout -- db uploads`.
+4. **Banco em WAL:** o `dev:wp` cai no boot com `exit code 255` (em `--verbosity debug`: "Cannot escape data without an active database connection"). Pare o servidor e rode `npm run db:fix`.
+5. **Teste e diagnóstico não rodam no `db/` do repositório:** copie `db/` para fora do repo e suba o Playground numa porta separada.
+6. **Voltar ao banco do repositório** (descartar o que você editou): `git checkout -- db uploads`.
 
 O banco do repositório **não guarda login**: a senha é inutilizada e as sessões são apagadas quando o `dev:wp` para. O `db:check` reprova um banco que ainda tenha o login de alguém. O diff do banco ainda pode mudar sem edição de conteúdo (opções transitórias do WordPress): só o commite quando houver conteúdo novo.
 

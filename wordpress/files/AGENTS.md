@@ -11,7 +11,7 @@ Tema **WordPress** de {{nome}}, mantido pela **Série A**. A fonte de CSS/JS fic
 - Não adicione webpack, Vite, Babel ou `@wordpress/scripts`. O build é `esbuild.mjs` + Tailwind CLI.
 - Depois de mexer em `src/`, rode `npm run lint`, `npm run typecheck` e `npm run build` e confirme que terminam sem erro.
 - **O login do WordPress local vem do `.env`, nunca do código.** `npm run dev:wp` (`scripts/dev-wp.mjs`) grava `WP_ADMIN_USER`/`WP_ADMIN_PASSWORD` no banco ao subir e o devolve ao estado neutro ao parar (senha `!`, usuário `admin`, sem `session_tokens`). Não escreva `admin / password` em doc, skill ou script, e não commite `db/` com login dentro: o `npm run db:check` reprova e o `db:fix` limpa. Quem sobe o Playground por outro caminho (sem o launcher) deixa o banco sem senha utilizável.
-- **`db/` e `uploads/` são versionados**, e o banco é binário: não se mescla. Commit de conteúdo (`content: ...`) leva `db/` e `uploads/` sozinhos, com o `dev:wp` parado e o `npm run db:check` passando (o pre-commit confere). Nunca `git stash` na árvore inteira: o banco volta ao estado antigo. Detalhes na seção "Banco de dados" do README.
+- **`db/` e `uploads/` são versionados**, e o banco é binário: não se mescla. Commit de conteúdo (`content: ...`) leva `db/` e `uploads/` sozinhos, com o `dev:wp` parado e o `npm run db:check` passando (o pre-commit confere). **Teste e diagnóstico não rodam no `db/` do repositório**: copie e suba numa porta separada. Nunca `git stash` na árvore inteira: o banco volta ao estado antigo. Detalhes na seção "Banco de dados" do README.
 - Textos, commits e comunicação em **português**.
 - Nunca adicione `Co-Authored-By` (nem qualquer outra marca de autoria de IA, como "Generated with ...") em commits ou pull requests.
 
