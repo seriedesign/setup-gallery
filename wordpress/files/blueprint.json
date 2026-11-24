@@ -4,6 +4,20 @@
     {
       "step": "activateTheme",
       "themeFolderName": "{{slug}}"
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "all-in-one-wp-migration"
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "url",
+        "url": "https://github.com/codician-team/wp-puller/releases/latest/download/wp-puller.zip"
+      }
     }
   ],
   "login": true

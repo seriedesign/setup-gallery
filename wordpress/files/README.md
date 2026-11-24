@@ -50,4 +50,15 @@ O banco é um arquivo binário: o git **não consegue mesclar** duas edições. 
 
 O banco do repositório **não guarda login**: a senha é inutilizada e as sessões são apagadas quando o `dev:wp` para. O `db:check` reprova um banco que ainda tenha o login de alguém. O diff do banco ainda pode mudar sem edição de conteúdo (opções transitórias do WordPress): só o commite quando houver conteúdo novo.
 
+## Levar o banco para outro ambiente
+
+O [All-in-One WP Migration](https://wordpress.org/plugins/all-in-one-wp-migration/) vem instalado no `dev:wp` (passo do `blueprint.json`) e leva banco, mídia, tema e plugins num arquivo `.wpress`. O destino precisa ter o mesmo plugin.
+
+1. **Backup do destino:** exporte o ambiente de destino antes (menu All-in-One WP Migration > Export > File). A importação **substitui o banco inteiro**, inclusive usuários e a lista de plugins ativos.
+2. **Exportar o local** com o `dev:wp` rodando: All-in-One WP Migration > Export > File. A exportação leva alguns minutos, porque o SQLite do Playground é lento para ler. O arquivo leva o login do seu `.env`.
+3. **Importar no destino:** All-in-One WP Migration > Import > Import from file (a lista de Backups só restaura na versão paga). Limite de upload de 512 MB na versão gratuita.
+4. **Depois:** a importação troca os usuários pelos do arquivo, então entre com o login do seu `.env`, crie o usuário próprio do ambiente e troque ou apague esse. Plugins que só existem no destino precisam ser reativados, e a configuração dos que já vêm no `dev:wp` (como o WP Puller: repositório, pasta do tema, token do GitHub e secret do webhook) é a do seu banco local e precisa ser refeita no destino.
+
+O SQL que o Playground gera é de SQLite, e o plugin o converte na importação: foi testado num MariaDB 11.4 com PHP 8.3, não em todo servidor.
+
 Convenções do projeto e instruções para agentes: [AGENTS.md](AGENTS.md).
