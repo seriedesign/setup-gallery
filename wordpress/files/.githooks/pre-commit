@@ -1,0 +1,26 @@
+#!/bin/sh
+# Banco local (db/) e mídia (uploads/) só entram no git em commit de conteúdo, com o banco
+# parado, em modo normal e sem login dentro. Ver "Banco de dados" no README.
+# Instalado pelo `npm ci` (prepare), que também garante o bit de execução: hook sem ele o git
+# pula EM SILÊNCIO.
+#
+# Commit de merge não passa por aqui: carregar db/ junto com código é o normal dele.
+if [ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]; then
+  exit 0
+fi
+
+# O .gitkeep só segura a pasta no git: não é conteúdo, e o primeiro commit de um projeto novo
+# leva db/.gitkeep e uploads/.gitkeep junto com o código.
+staged=$(git diff --cached --name-only | grep -v '/\.gitkeep$')
+conteudo=$(printf '%s\n' "$staged" | grep -E '^(db|uploads)/')
+[ -z "$conteudo" ] && exit 0
+
+outros=$(printf '%s\n' "$staged" | grep -vE '^(db|uploads)/')
+if [ -n "$outros" ]; then
+  echo "pre-commit: db/ e uploads/ vão sozinhos, em um commit só de conteúdo (content: ...)."
+  echo "Arquivos de outro assunto neste commit:"
+  printf '%s\n' "$outros" | sed 's/^/  /'
+  exit 1
+fi
+
+node scripts/db-check.mjs
